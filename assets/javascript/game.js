@@ -5,7 +5,7 @@ function reset(){
 
 
 var chosen = false;
-var battleMode = false;
+var battleMode = null;
 
 var gengarChosen = null;
 var cyndaChosen = null;
@@ -34,10 +34,10 @@ function checkFight(){
 //gengar object
 var gengar = {
     name: "gengar",
-    HP: 100,
+    HP: 200,
     Status: "Active",
-    Atk: 10,
-    Increase: 10,
+    Atk: 5,
+    Increase: 5,
     Counter: 30,
     pick: function(){
         $('.char1').appendTo('#mcBox');
@@ -45,6 +45,12 @@ var gengar = {
     },
     ready: function(){
         $('.char1').appendTo('.defenderBox');
+        $('.log').text("You have chosen to fight Gengar!");
+        $('.log1, .log2, .log3, .log4').empty();
+
+    },
+    defeat: function(){
+        $('.char1').remove();
     }
 }
 
@@ -53,13 +59,16 @@ $(".char1").click(function(){
     if(chosen === false){
         gengar.pick();
         chosen = true;
+        battleMode = false;
         gengarChosen = true;
         cyndaChosen = false;
         larviChosen = false;
         dratChosen = false;
+
+        console.log(battleMode);
         checkChosen();
     }
-    if(gengarChosen && battleMode === false){
+    else if(battleMode == false && gengarChosen === false){
         gengar.ready();
         gengarFight = true;
         battleMode = true;
@@ -87,6 +96,10 @@ var cynda = {
     },
     ready: function(){
         $('.char2').appendTo('.defenderBox');
+        $('.log').text("You have chosen to fight Cyndaquil!");
+        $('.log1, .log2, .log3, .log4').empty();
+
+
     },
     defeat: function(){
         $('.char2').remove();
@@ -101,8 +114,9 @@ $(".char2").click(function(){
         cyndaChosen = true;
         larviChosen = false;
         dratChosen = false;
+        battleMode = false;
     }
-    if(cyndaChosen && battleMode === false){
+    else if(battleMode == false && cyndaChosen === false){
         cynda.ready();
         cyndaFight = true;
         battleMode = true;
@@ -116,7 +130,7 @@ $(".char2").click(function(){
 //larvitar object
 var larvi = {
     name: "larvitar",
-    HP: 100,
+    HP: 300,
     Status: "Active",
     Atk: 10,
     Increase: 10,
@@ -127,6 +141,12 @@ var larvi = {
     },
     ready: function(){
         $('.char3').appendTo('.defenderBox');
+        $('.log').text("You have chosen to fight Larvitar!");
+        $('.log1, .log2, .log3, .log4').empty();
+
+    },
+    defeat: function(){
+        $('.char3').remove();
     }
 }
 
@@ -141,7 +161,7 @@ $(".char3").click(function(){
         dratChosen = false
         checkChosen();
     }
-    if(larviChosen && battleMode === false){
+    else if(battleMode == false && larviChosen === false){
         larvi.ready();
         larviFight = true;
         battleMode = true;
@@ -151,7 +171,7 @@ $(".char3").click(function(){
    
 });
 
-//cyndaquil object
+//dratini object
 var drat = {
     name: "dratini",
     HP: 100,
@@ -166,6 +186,9 @@ var drat = {
     },
     ready: function(){
         $('.char4').appendTo('.defenderBox');
+        $('.log').text("You have chosen to fight Dratini!");
+        $('.log1, .log2, .log3, .log4').empty();
+
     },
     defeat: function(){
         $('.char4').remove();
@@ -181,7 +204,7 @@ $(".char4").click(function(){
         larviChosen = false;
         dratChosen = true;
     }
-    if(dratChosen && battleMode === false){
+    else if(battleMode == false && dratChosen === false){
         drat.ready();
         dratFight = true;
         battleMode = true;
@@ -195,6 +218,8 @@ $(".char4").click(function(){
 
 // Attack Button
 $('.attack').click(function(){
+
+    //gengar v cyndaquil
     if (gengarChosen && cyndaFight == true){
         //HP updates
         gengar.HP = gengar.HP - cynda.Counter;
@@ -216,18 +241,47 @@ $('.attack').click(function(){
             $('.log').text("You knocked out Cyndaquil! Choose your next opponent!")
             cynda.Status = "Defeated";
             gengar.Status = "Defeated";
+            battleMode = false;
             cyndaFight = false;
             cynda.defeat();
         }
     }
 
-    else if (gengar.Status && cynda.Status === "Defeated"){
+    //gengar v larvitar
+    if (gengarChosen && larviFight == true){
+        //HP updates
+        gengar.HP = gengar.HP - larvi.Counter;
+        larvi.HP = larvi.HP - gengar.Atk;
+        $('.log').text("Gengar attacks! Gengar does " + gengar.Atk + " Damage to Larvitar!" );
+        $('.log1').text("Larvitar Counter Attacks! Larvitar does " + larvi.Counter + " Damage to Gengar!" );
+        
+        $('.gengarHP').text("HP: " + gengar.HP);
+        $('.larviHP').text("HP: " + larvi.HP);
+
+        gengar.Atk = gengar.Atk + gengar.Increase;
+
+        if(gengar.HP <= 0){
+            alert("You got knocked out!");
+            reset();
+        }
+
+        if(larvi.HP <= 0){
+            $('.log').text("You knocked out Larvitar! Choose your next opponent!")
+            larvi.Status = "Defeated";
+            gengar.Status = "Defeated";
+            battleMode = false;
+            cyndaFight = false;
+            larvi.defeat();
+        }
+    }
+
+    else if (gengar.Status && cynda.Status && larvi.Status && drat.Status === "Defeated"){
         alert("You beat the game! You get the Coder Badge!")
 
     }
 
     else {
-        $('.log').text("There is no defender here!");
-        $('.log1, .log2, .log3, .log4').empty();
+        // $('.log').text("There is no defender here!");
+        // $('.log1, .log2, .log3, .log4').empty();
     }
 });
