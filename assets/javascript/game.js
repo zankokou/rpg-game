@@ -3,9 +3,14 @@ function reset(){
     location.reload();
 }
 
+// function rivalReset(){
+//     myRival = null;
+// }
 
 var chosen = false;
 var battleMode = null;
+var myPokemon = null;
+var myRival = null;
 
 var gengarChosen = null;
 var cyndaChosen = null;
@@ -19,29 +24,61 @@ var dratFight = null;
 
 
 
-function checkChosen(){
-    console.log("chosen " +(chosen));
-    console.log("g chosen " +(gengarChosen));
-    console.log("c chosen "+(cyndaChosen));
+
+function myChoice(){
+    if(gengarChosen == true){
+        myPokemon = gengar;
+        // console.log("my poke " + myPokemon.name);
+    }
+
+    if(cyndaChosen == true){
+        myPokemon = cynda;
+        // console.log("my poke " + myPokemon.name);
+    }
+
+    if(larviChosen == true){
+        myPokemon = larvi;
+        // console.log("my poke " + myPokemon.name);
+    }
+
+    if(dratChosen == true){
+        myPokemon = drat;
+        // console.log("my poke " + myPokemon.name);
+    }
 }
 
-function checkFight(){
-    console.log("g fight " +(gengarFight));
-    console.log("c fight "+(cyndaFight));
-}
+function checkOpponent(){
+    if(gengarFight == true){
+        myRival = gengar;
+        // console.log("my opponent " + myRival.name);
+    }
+    if(cyndaFight == true){
+        myRival = cynda;
+        // console.log("my opponent " + myRival.name);
+    }
+    if(larviFight == true){
+        myRival = larvi;
+        // console.log("my opponent " + myRival.name);
+    }
+    if(dratFight == true){
+        myRival = drat;
+        // console.log("my opponent " + myRival.name);
+    }
 
+}
 
 //gengar object
 var gengar = {
-    name: "gengar",
+    name: "Gengar",
     HP: 200,
-    Status: "Active",
-    Atk: 5,
-    Increase: 5,
-    Counter: 30,
+    Status: "Alive",
+    Atk: 10,
+    Increase: 10,
+    Counter: 20,
     pick: function(){
         $('.char1').appendTo('#mcBox');
         $('.char2, .char3, .char4').appendTo('.choiceBox');
+
     },
     ready: function(){
         $('.char1').appendTo('.defenderBox');
@@ -61,19 +98,20 @@ $(".char1").click(function(){
         chosen = true;
         battleMode = false;
         gengarChosen = true;
+
         cyndaChosen = false;
         larviChosen = false;
         dratChosen = false;
 
-        console.log(battleMode);
-        checkChosen();
     }
     else if(battleMode == false && gengarChosen === false){
         gengar.ready();
+        myRival = gengar;
         gengarFight = true;
         battleMode = true;
-
-        checkFight();
+        myRival.Status = "Alive";
+        console.log(myRival.Status);
+        checkOpponent();
 
     }
 
@@ -83,7 +121,7 @@ $(".char1").click(function(){
 
 //cyndaquil object
 var cynda = {
-    name: "cyndaquil",
+    name: "Cyndaquil",
     HP: 100,
     Status: "Alive",
     Atk: 10,
@@ -110,39 +148,43 @@ $(".char2").click(function(){
     if(chosen === false){
         cynda.pick();
         chosen = true;
-        gengarChosen = false;
+        battleMode = false;
         cyndaChosen = true;
+
+        gengarChosen = false;
         larviChosen = false;
         dratChosen = false;
-        battleMode = false;
     }
     else if(battleMode == false && cyndaChosen === false){
         cynda.ready();
+        myRival = cynda;
         cyndaFight = true;
         battleMode = true;
-        checkFight();
+        myRival.Status = "Alive";
+        console.log(myRival.Status);
     }
 
 
 });
 
-
-//larvitar object
+//larvitar
 var larvi = {
-    name: "larvitar",
-    HP: 300,
-    Status: "Active",
+    name: "Larvitar",
+    HP: 100,
+    Status: "Alive",
     Atk: 10,
     Increase: 10,
-    Counter: 30,
+    Counter: 20,
     pick: function(){
         $('.char3').appendTo('#mcBox');
         $('.char1, .char2, .char4').appendTo('.choiceBox');
+
     },
     ready: function(){
         $('.char3').appendTo('.defenderBox');
         $('.log').text("You have chosen to fight Larvitar!");
         $('.log1, .log2, .log3, .log4').empty();
+
 
     },
     defeat: function(){
@@ -150,30 +192,33 @@ var larvi = {
     }
 }
 
-//larvitar click function
 $(".char3").click(function(){
     if(chosen === false){
         larvi.pick();
         chosen = true;
+        battleMode = false;
         larviChosen = true;
-        gengarChosen = false;
+
         cyndaChosen = false;
-        dratChosen = false
-        checkChosen();
+        gengarChosen = false;
+        dratChosen = false;
     }
     else if(battleMode == false && larviChosen === false){
         larvi.ready();
+        myRival = larvi;
         larviFight = true;
         battleMode = true;
-        checkFight();
-
+        myRival.Status = "Alive";
+        console.log(myRival.Status);
     }
-   
+
+
 });
+
 
 //dratini object
 var drat = {
-    name: "dratini",
+    name: "Dratini",
     HP: 100,
     Status: "Alive",
     Atk: 10,
@@ -186,8 +231,9 @@ var drat = {
     },
     ready: function(){
         $('.char4').appendTo('.defenderBox');
-        $('.log').text("You have chosen to fight Dratini!");
+        $('.log').text("You have chosen to fight Larvitar!");
         $('.log1, .log2, .log3, .log4').empty();
+
 
     },
     defeat: function(){
@@ -199,89 +245,111 @@ $(".char4").click(function(){
     if(chosen === false){
         drat.pick();
         chosen = true;
-        gengarChosen = false;
-        cyndaChosen = false;
-        larviChosen = false;
+        battleMode = false;
         dratChosen = true;
+
+        larviChosen = false;
+        cyndaChosen = false;
+        gengarChosen = false;
     }
     else if(battleMode == false && dratChosen === false){
         drat.ready();
+        myRival = drat;
         dratFight = true;
         battleMode = true;
-        checkFight();
+        myRival.Status = "Alive";
+        console.log(myRival.Status);
     }
 
 
 });
 
 
+
+
+
+function updateHP(){
+    if (gengarChosen && cyndaFight || cyndaChosen && gengarFight == true){    
+        $('.gengarHP').text("HP: " + gengar.HP);
+        $('.cyndaHP').text("HP: " + cynda.HP);
+    }
+
+    if (gengarChosen && larviFight  || larviChosen && gengarFight == true){    
+        $('.gengarHP').text("HP: " + gengar.HP);
+        $('.larviHP').text("HP: " + larvi.HP);
+    }
+
+
+    if (gengarChosen && dratFight || dratChosen && gengarFight == true){    
+        $('.gengarHP').text("HP: " + gengar.HP);
+        $('.dratHP').text("HP: " + drat.HP);
+    }
+
+
+    //cynda Chosen Log Updates
+    if (cyndaChosen && larviFight || larviChosen && cyndaFight == true){    
+        $('.larviHP').text("HP: " + larvi.HP);
+        $('.cyndaHP').text("HP: " + cynda.HP);
+    }
+
+    if (cyndaChosen && dratFight || dratChosen && cyndaFight == true){    
+        $('.dratHP').text("HP: " + drat.HP);
+        $('.cyndaHP').text("HP: " + cynda.HP);
+    }
+
+    //larvi Chosen log updates
+    if (larviChosen && dratFight || dratChosen && larviFight == true){    
+        $('.dratHP').text("HP: " + drat.HP);
+        $('.larviHP').text("HP: " + larvi.HP);
+    }
+}
+
+function battleLog(){
+    if (myPokemon.Status && myRival.Status == "Alive"){
+        myPokemon.HP = myPokemon.HP - myRival.Counter;
+        myRival.HP = myRival.HP - myPokemon.Atk;
+        $('.log1').text(myPokemon.name + " attacks! " + myPokemon.name + " does " + myPokemon.Atk + " Damage to " + myRival.name + "!" );
+        $('.log2').text(myRival.name + " Counter Attacks! " + myRival.name + " does " + myRival.Counter + " Damage to " + myPokemon.name + "!" );
+    
+        myPokemon.Atk = myPokemon.Atk + myPokemon.Increase;
+
+    }
+
+}
 
 // Attack Button
 $('.attack').click(function(){
+    myChoice();
+    console.log("me " + myPokemon.name);
+    console.log("rival " + myRival.name)
 
-    //gengar v cyndaquil
-    if (gengarChosen && cyndaFight == true){
-        //HP updates
-        gengar.HP = gengar.HP - cynda.Counter;
-        cynda.HP = cynda.HP - gengar.Atk;
-        $('.log').text("Gengar attacks! Gengar does " + gengar.Atk + " Damage to Cyndaquil!" );
-        $('.log1').text("Cyndaquil Counter Attacks! Cyndaquil does " + cynda.Counter + " Damage to Gengar!" );
-        
-        $('.gengarHP').text("HP: " + gengar.HP);
-        $('.cyndaHP').text("HP: " + cynda.HP);
 
-        gengar.Atk = gengar.Atk + gengar.Increase;
-
-        if(gengar.HP <= 0){
-            alert("You got knocked out!");
-            reset();
-        }
-
-        if(cynda.HP <= 0){
-            $('.log').text("You knocked out Cyndaquil! Choose your next opponent!")
-            cynda.Status = "Defeated";
-            gengar.Status = "Defeated";
-            battleMode = false;
-            cyndaFight = false;
-            cynda.defeat();
-        }
+    if(myPokemon.HP <= 0){
+        alert("You got knocked out!");
+        reset();
     }
 
-    //gengar v larvitar
-    if (gengarChosen && larviFight == true){
-        //HP updates
-        gengar.HP = gengar.HP - larvi.Counter;
-        larvi.HP = larvi.HP - gengar.Atk;
-        $('.log').text("Gengar attacks! Gengar does " + gengar.Atk + " Damage to Larvitar!" );
-        $('.log1').text("Larvitar Counter Attacks! Larvitar does " + larvi.Counter + " Damage to Gengar!" );
-        
-        $('.gengarHP').text("HP: " + gengar.HP);
-        $('.larviHP').text("HP: " + larvi.HP);
-
-        gengar.Atk = gengar.Atk + gengar.Increase;
-
-        if(gengar.HP <= 0){
-            alert("You got knocked out!");
-            reset();
-        }
-
-        if(larvi.HP <= 0){
-            $('.log').text("You knocked out Larvitar! Choose your next opponent!")
-            larvi.Status = "Defeated";
-            gengar.Status = "Defeated";
-            battleMode = false;
-            cyndaFight = false;
-            larvi.defeat();
-        }
+    if(myRival.HP <= 0){
+        $('.log').text("You knocked out " + myRival.name + "! Choose your next opponent!")
+        myRival.Status = "Defeated";
+        battleMode = false;
+        myRival.defeat();
+ 
     }
+    battleLog();
+    updateHP();
 
-    else if (gengar.Status && cynda.Status && larvi.Status && drat.Status === "Defeated"){
-        alert("You beat the game! You get the Coder Badge!")
 
-    }
+    // if (gengar.Status && cynda.Status && drat.Status && larvi.Status === "Defeated"){
+    //     alert("You beat the game! You get the Coder Badge!")
 
-    else {
-        // $('.log').text("There is no defender here!");
-        // $('.log1, .log2, .log3, .log4').empty();
-    }
+    // }
+
+    // else {
+    //     $('.log').text("There is no defender here!");
+    //     $('.log1, .log2, .log3, .log4').empty();
+    // }
+
 });
+
+
