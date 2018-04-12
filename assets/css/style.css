@@ -2,12 +2,20 @@
     box-sizing: border-box;
 }
 
+
+body{
+    background-image: url("../images/back.jpg");
+}
 .jumbotron{
     height: 250px;
+    background: white;
+
+
 }
 
 .container{
     max-width: 960px;
+
 }
 
 #characterBox{

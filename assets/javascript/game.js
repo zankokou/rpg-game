@@ -93,14 +93,12 @@ var gengar = {
     pick: function(){
         $('.char1').appendTo('#mcBox');
         $('.char2, .char3, .char4').appendTo('.choiceBox');
-        audG.play();
         
     },
     ready: function(){
         $('.char1').appendTo('.defenderBox');
         $('.log').text("You have chosen to fight Gengar!");
         $('.log1, .log2, .log3, .log4').empty();
-        audG.play();
 
     },
     defeat: function(){
@@ -110,6 +108,8 @@ var gengar = {
 
 //gengar click function
 $(".char1").click(function(){
+    audG.play();
+
     if(chosen === false){
         gengar.pick();
         chosen = true;
@@ -145,8 +145,7 @@ var cynda = {
     Counter: 18,
     pick: function(){
         $('.char2').appendTo('#mcBox');
-        $('.char1, .char3, .char4').appendTo('.choiceBox');
-        audC.play();
+        $('.char1, .char3, .char4').appendTo('.choiceBox');  
 
 
     },
@@ -154,7 +153,6 @@ var cynda = {
         $('.char2').appendTo('.defenderBox');
         $('.log').text("You have chosen to fight Cyndaquil!");
         $('.log1, .log2, .log3, .log4').empty();
-        audC.play();
 
 
 
@@ -165,6 +163,7 @@ var cynda = {
 }
 
 $(".char2").click(function(){
+    audC.play();
     if(chosen === false){
         cynda.pick();
         chosen = true;
@@ -197,7 +196,6 @@ var larvi = {
     pick: function(){
         $('.char3').appendTo('#mcBox');
         $('.char1, .char2, .char4').appendTo('.choiceBox');
-        audL.play();
 
 
     },
@@ -205,7 +203,6 @@ var larvi = {
         $('.char3').appendTo('.defenderBox');
         $('.log').text("You have chosen to fight Larvitar!");
         $('.log1, .log2, .log3, .log4').empty();
-        audL.play();
 
 
 
@@ -216,6 +213,8 @@ var larvi = {
 }
 
 $(".char3").click(function(){
+    audL.play();
+
     if(chosen === false){
         larvi.pick();
         chosen = true;
@@ -249,7 +248,6 @@ var drat = {
     pick: function(){
         $('.char4').appendTo('#mcBox');
         $('.char1, .char2, .char3').appendTo('.choiceBox');
-        audD.play();
 
 
     },
@@ -257,7 +255,6 @@ var drat = {
         $('.char4').appendTo('.defenderBox');
         $('.log').text("You have chosen to fight Dratini!");
         $('.log1, .log2, .log3, .log4').empty();
-        audD.play();
 
 
 
@@ -268,6 +265,8 @@ var drat = {
 }
 
 $(".char4").click(function(){
+    audD.play();
+
     if(chosen === false){
         drat.pick();
         chosen = true;
@@ -332,14 +331,27 @@ function battleLog(){
     }
 
     if (myPokemon.Status && myRival.Status == "Alive"){
-        myPokemon.HP = myPokemon.HP - myRival.Counter;
         $('.log1').text(myPokemon.name + " attacks! " + myPokemon.name + " does " + myPokemon.Atk + " Damage to " + myRival.name + "!" );
-
         myRival.HP = myRival.HP - myPokemon.Atk;
-        $('.log2').text(myRival.name + " Counter Attacks! " + myRival.name + " does " + myRival.Counter + " Damage to " + myPokemon.name + "!" );
-    
         myPokemon.Atk = myPokemon.Atk + myPokemon.Increase;
 
+
+        if(myRival.HP <= 0){
+            $('.log').text("You knocked out " + myRival.name + "! Choose your next opponent!");
+            if (battleMode === true){
+                exp++
+            }
+            battleMode = false;
+            myRival.defeat();
+            console.log(exp);
+                
+            myRival.Status = "Defeated";
+
+
+        }
+    
+        $('.log2').text(myRival.name + " Counter Attacks! " + myRival.name + " does " + myRival.Counter + " Damage to " + myPokemon.name + "!" );
+        myPokemon.HP = myPokemon.HP - myRival.Counter;
 
         if(myPokemon.HP <= 0){
             $('.log1, .log2, .log3, .log4').empty();
@@ -357,20 +369,12 @@ function battleLog(){
             })
             
         }
+
+
+
+
     
-        if(myRival.HP <= 0){
-            $('.log').text("You knocked out " + myRival.name + "! Choose your next opponent!");
-            if (battleMode === true){
-                exp++
-            }
-            battleMode = false;
-            myRival.defeat();
-            console.log(exp);
-                
-            myRival.Status = "Defeated";
-
-
-        }
+       
 
     }
 
