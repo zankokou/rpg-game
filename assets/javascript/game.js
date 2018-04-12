@@ -11,6 +11,8 @@ var chosen = false;
 var battleMode = null;
 var myPokemon = null;
 var myRival = null;
+var exp = 0;
+var set = false;
 
 var gengarChosen = null;
 var cyndaChosen = null;
@@ -231,7 +233,7 @@ var drat = {
     },
     ready: function(){
         $('.char4').appendTo('.defenderBox');
-        $('.log').text("You have chosen to fight Larvitar!");
+        $('.log').text("You have chosen to fight Dratini!");
         $('.log1, .log2, .log3, .log4').empty();
 
 
@@ -313,42 +315,76 @@ function battleLog(){
     
         myPokemon.Atk = myPokemon.Atk + myPokemon.Increase;
 
+
+        if(myPokemon.HP <= 0){
+            $('.log1, .log2, .log3, .log4').empty();
+            $('.log').text("You got knocked out!");
+            myPokemon.Status = "Defeated";
+            myPokemon.defeat();
+
+
+            var $restart= $('<input/>').attr({ type: 'button', class: 'btn btn-primary', name:'btn1', value:'Play Again?'});
+            $(".log1").append($restart);
+            set = true;
+
+            $restart.click(function(){
+                location.reload();
+            })
+            
+        }
+    
+        if(myRival.HP <= 0){
+            $('.log').text("You knocked out " + myRival.name + "! Choose your next opponent!");
+            myRival.Status = "Defeated";
+                if (battleMode === true){
+                    exp++
+                }
+            battleMode = false;
+            myRival.defeat();
+            console.log(exp);
+
+
+        
+        }
+
+    }
+
+    if(myPokemon.Status == "Alive" && battleMode == false) {
+        $('.log').text("There is no defender here!");
+    }
+}
+
+function winGame(){
+        if (exp === 3){
+        $(".log").text("You beat the game! You get the Coder Badge!");
+      
+
+        if (set === false){
+            $('.log1, .log2, .log3, .log4').empty();
+            var $restart= $('<input/>').attr({ type: 'button', class: 'btn-primary', name:'btn1', value:'Play Again?'});
+            $(".log1").append($restart);
+            set = true;
+
+            $restart.click(function(){
+                location.reload();
+            })
+        }
+
     }
 
 }
 
 // Attack Button
 $('.attack').click(function(){
-    myChoice();
-    console.log("me " + myPokemon.name);
-    console.log("rival " + myRival.name)
+    if (set === false){
+        myChoice();
+        battleLog();
+        updateHP();
+        winGame();
+
+}
 
 
-    if(myPokemon.HP <= 0){
-        alert("You got knocked out!");
-        reset();
-    }
-
-    if(myRival.HP <= 0){
-        $('.log').text("You knocked out " + myRival.name + "! Choose your next opponent!")
-        myRival.Status = "Defeated";
-        battleMode = false;
-        myRival.defeat();
- 
-    }
-    battleLog();
-    updateHP();
-
-
-    // if (gengar.Status && cynda.Status && drat.Status && larvi.Status === "Defeated"){
-    //     alert("You beat the game! You get the Coder Badge!")
-
-    // }
-
-    // else {
-    //     $('.log').text("There is no defender here!");
-    //     $('.log1, .log2, .log3, .log4').empty();
-    // }
 
 });
 
