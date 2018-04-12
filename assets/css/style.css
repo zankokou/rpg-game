@@ -2,6 +2,10 @@
     box-sizing: border-box;
 }
 
+.jumbotron{
+    height: 250px;
+}
+
 .container{
     max-width: 960px;
 }
@@ -50,4 +54,10 @@ img:hover{
 
 .drat{
     margin-left: 20px;
+}
+
+
+
+.defenderBox{
+    height: 350px;
 }

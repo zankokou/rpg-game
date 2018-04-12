@@ -3,10 +3,6 @@ function reset(){
     location.reload();
 }
 
-// function rivalReset(){
-//     myRival = null;
-// }
-
 var chosen = false;
 var battleMode = null;
 var myPokemon = null;
@@ -24,6 +20,20 @@ var cyndaFight = null;
 var larviFight = null;
 var dratFight = null;
 
+
+//audio 
+var audG = document.getElementById("gengarAudio");
+audG.volume = 0.2;
+
+var audC = document.getElementById("cyndaAudio");
+audC.volume = 0.2;
+
+var audL = document.getElementById("larviAudio");
+audL.volume = 0.2;
+
+
+var audD = document.getElementById("dratAudio");
+audD.volume = 0.2;
 
 
 
@@ -69,23 +79,28 @@ function checkOpponent(){
 
 }
 
+
+
+
 //gengar object
 var gengar = {
     name: "Gengar",
-    HP: 200,
+    HP: 130,
     Status: "Alive",
-    Atk: 10,
-    Increase: 10,
-    Counter: 20,
+    Atk: 32,
+    Increase: 8,
+    Counter: 22,
     pick: function(){
         $('.char1').appendTo('#mcBox');
         $('.char2, .char3, .char4').appendTo('.choiceBox');
-
+        audG.play();
+        
     },
     ready: function(){
         $('.char1').appendTo('.defenderBox');
         $('.log').text("You have chosen to fight Gengar!");
         $('.log1, .log2, .log3, .log4').empty();
+        audG.play();
 
     },
     defeat: function(){
@@ -112,8 +127,7 @@ $(".char1").click(function(){
         gengarFight = true;
         battleMode = true;
         myRival.Status = "Alive";
-        console.log(myRival.Status);
-        checkOpponent();
+        // checkOpponent();
 
     }
 
@@ -124,20 +138,24 @@ $(".char1").click(function(){
 //cyndaquil object
 var cynda = {
     name: "Cyndaquil",
-    HP: 100,
+    HP: 155,
     Status: "Alive",
-    Atk: 10,
-    Increase: 10,
-    Counter: 20,
+    Atk: 14,
+    Increase: 14,
+    Counter: 18,
     pick: function(){
         $('.char2').appendTo('#mcBox');
         $('.char1, .char3, .char4').appendTo('.choiceBox');
+        audC.play();
+
 
     },
     ready: function(){
         $('.char2').appendTo('.defenderBox');
         $('.log').text("You have chosen to fight Cyndaquil!");
         $('.log1, .log2, .log3, .log4').empty();
+        audC.play();
+
 
 
     },
@@ -163,7 +181,6 @@ $(".char2").click(function(){
         cyndaFight = true;
         battleMode = true;
         myRival.Status = "Alive";
-        console.log(myRival.Status);
     }
 
 
@@ -172,20 +189,24 @@ $(".char2").click(function(){
 //larvitar
 var larvi = {
     name: "Larvitar",
-    HP: 100,
+    HP: 200,
     Status: "Alive",
-    Atk: 10,
+    Atk: 8,
     Increase: 10,
-    Counter: 20,
+    Counter: 14,
     pick: function(){
         $('.char3').appendTo('#mcBox');
         $('.char1, .char2, .char4').appendTo('.choiceBox');
+        audL.play();
+
 
     },
     ready: function(){
         $('.char3').appendTo('.defenderBox');
         $('.log').text("You have chosen to fight Larvitar!");
         $('.log1, .log2, .log3, .log4').empty();
+        audL.play();
+
 
 
     },
@@ -211,7 +232,6 @@ $(".char3").click(function(){
         larviFight = true;
         battleMode = true;
         myRival.Status = "Alive";
-        console.log(myRival.Status);
     }
 
 
@@ -221,20 +241,24 @@ $(".char3").click(function(){
 //dratini object
 var drat = {
     name: "Dratini",
-    HP: 100,
+    HP: 145,
     Status: "Alive",
     Atk: 10,
-    Increase: 10,
-    Counter: 20,
+    Increase: 18,
+    Counter: 18,
     pick: function(){
         $('.char4').appendTo('#mcBox');
         $('.char1, .char2, .char3').appendTo('.choiceBox');
+        audD.play();
+
 
     },
     ready: function(){
         $('.char4').appendTo('.defenderBox');
         $('.log').text("You have chosen to fight Dratini!");
         $('.log1, .log2, .log3, .log4').empty();
+        audD.play();
+
 
 
     },
@@ -260,14 +284,10 @@ $(".char4").click(function(){
         dratFight = true;
         battleMode = true;
         myRival.Status = "Alive";
-        console.log(myRival.Status);
     }
 
 
 });
-
-
-
 
 
 function updateHP(){
@@ -307,10 +327,15 @@ function updateHP(){
 }
 
 function battleLog(){
+    if (myRival.Status === "Defeated") {
+        $('.log').text("There is no defender here!");
+    }
+
     if (myPokemon.Status && myRival.Status == "Alive"){
         myPokemon.HP = myPokemon.HP - myRival.Counter;
-        myRival.HP = myRival.HP - myPokemon.Atk;
         $('.log1').text(myPokemon.name + " attacks! " + myPokemon.name + " does " + myPokemon.Atk + " Damage to " + myRival.name + "!" );
+
+        myRival.HP = myRival.HP - myPokemon.Atk;
         $('.log2').text(myRival.name + " Counter Attacks! " + myRival.name + " does " + myRival.Counter + " Damage to " + myPokemon.name + "!" );
     
         myPokemon.Atk = myPokemon.Atk + myPokemon.Increase;
@@ -320,7 +345,7 @@ function battleLog(){
             $('.log1, .log2, .log3, .log4').empty();
             $('.log').text("You got knocked out!");
             myPokemon.Status = "Defeated";
-            myPokemon.defeat();
+            // myPokemon.defeat();
 
 
             var $restart= $('<input/>').attr({ type: 'button', class: 'btn btn-primary', name:'btn1', value:'Play Again?'});
@@ -335,23 +360,20 @@ function battleLog(){
     
         if(myRival.HP <= 0){
             $('.log').text("You knocked out " + myRival.name + "! Choose your next opponent!");
-            myRival.Status = "Defeated";
-                if (battleMode === true){
-                    exp++
-                }
+            if (battleMode === true){
+                exp++
+            }
             battleMode = false;
             myRival.defeat();
             console.log(exp);
+                
+            myRival.Status = "Defeated";
 
 
-        
         }
 
     }
 
-    if(myPokemon.Status == "Alive" && battleMode == false) {
-        $('.log').text("There is no defender here!");
-    }
 }
 
 function winGame(){
@@ -361,7 +383,7 @@ function winGame(){
 
         if (set === false){
             $('.log1, .log2, .log3, .log4').empty();
-            var $restart= $('<input/>').attr({ type: 'button', class: 'btn-primary', name:'btn1', value:'Play Again?'});
+            var $restart= $('<input/>').attr({ type: 'button', class: 'btn btn-primary', name:'btn1', value:'Play Again?'});
             $(".log1").append($restart);
             set = true;
 
@@ -381,10 +403,7 @@ $('.attack').click(function(){
         battleLog();
         updateHP();
         winGame();
-
-}
-
-
+    }      
 
 });
 

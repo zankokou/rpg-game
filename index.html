@@ -11,22 +11,24 @@
     
         </head>
         <body>
+
+
             <div class = "container">
             <div class ="jumbotron" id = "topBox">
                 <h3>Pokemon RPG!</h3></div>
 
             <div class ="jumbotron" id = "characterBox">
-                <h3>choice of characters goes here</h3>
+                <h3>Choose Your Pokemon!</h3>
                 <div class =" col-sm-3 char char1">
                         <img src = "assets/images/gengar.png"/>
-                        <h4 class ="hp gengarHP">HP: 100</h4>
+                        <h4 class ="hp gengarHP">HP: 130</h4>
                         <h4 class ="name">Gengar</h4>
     
                     </div>
     
                     <div class ="col-sm-3 char char2">
                         <img src = "assets/images/cynda.png"/>
-                        <h4 class ="hp cyndaHP">HP: 100</h4>
+                        <h4 class ="hp cyndaHP">HP: 155</h4>
                         <h4 class ="name cynda">Cyndaquil</h4>
     
                     </div>
@@ -34,7 +36,7 @@
     
                     <div class ="col-sm-3 char char3">
                         <img src = "assets/images/larvi.png"/>
-                        <h4 class ="hp larviHP">HP: 100</h4>
+                        <h4 class ="hp larviHP">HP: 200</h4>
                         <h4 class ="name">Larvitar</h4>
     
                     </div>
@@ -42,7 +44,7 @@
     
                     <div class ="col-sm-3 char char4">
                         <img src = "assets/images/drat.png"/>
-                        <h4 class ="hp dratHP">HP: 100</h4>
+                        <h4 class ="hp dratHP">HP: 145</h4>
                         <h4 class ="name drat">Dratini</h4>
     
                     </div>
@@ -50,9 +52,7 @@
             </div>
 
             <div class ="jumbotron" id = "mcBox">
-                <h3>Your Character</h3>
-
-
+                <h3>Your Chosen Pokemon</h3>
 
 
             </div>
@@ -64,18 +64,23 @@
 
             </div>
 
-            <div class ="fightBox">
+            <!-- <div class ="fightBox">
                 <h3>Fight Section</h3>
-                <button class="btn attack">Attack</button>
-            </div>
+            </div> -->
 
             <div class ="jumbotron defenderBox">
+                <button class="btn btn-danger attack">Attack</button>
+
                 <h3>Defender</h3>
-                <h4 class ="log">Fighting Log goes here</h4>
-                <h4 class ="log1"></h4>
-                <h4 class ="log2"></h4>
-                <h4 class ="log3"></h4>
-                <h4 class ="log4"></h4>
+                
+                <div class = "col-sm-6">
+                        <h4 class ="log">Combat Log</h4>
+                        <h4 class ="log1"></h4>
+                        <h4 class ="log2"></h4>
+                        <h4 class ="log3"></h4>
+                        <h4 class ="log4"></h4>
+                </div>
+
 
 
             </div>
@@ -83,26 +88,11 @@
         
         </div>
 
-        
-        <script>
-        //Top Header - Star Wars RPG
-        //2nd Row 
-            // 4 columns - holds 4 images 
-            // images append to Your character or enemies on click
-        
-        //3rd Row - Your character 
-        //4th row - Enemies available to attack
-            // on click goes to defender
+        <audio id ="gengarAudio"><source  src="assets/images/gengar-mega.mp3" type="audio/mpeg"></source></audio>
+        <audio id ="cyndaAudio"><source  src="assets/images/cyndaquil.mp3" type="audio/mpeg"></source></audio>
+        <audio id ="larviAudio"><source  src="assets/images/larvitar.mp3" type="audio/mpeg"></source></audio>
+        <audio id ="dratAudio"><source  src="assets/images/dratini.mp3" type="audio/mpeg"></source></audio>
 
-        //5th row - fight section
-            // button to "attack"
-            // "attack" has log of action
-            // attack increases by base dmg
-        //6th row - defender
-            // once hp hits 0 --> remove 
-            // once remove "attack" shows nothing is here
-        
-        </script>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script rel="script" type-"text/javascript" src="assets/javascript/game.js"></script>
