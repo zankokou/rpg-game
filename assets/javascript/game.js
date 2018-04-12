@@ -327,6 +327,7 @@ function updateHP(){
 
 function battleLog(){
     if (myRival.Status === "Defeated") {
+        $('.log1, .log2, .log3, .log4').empty();
         $('.log').text("There is no defender here!");
     }
 
