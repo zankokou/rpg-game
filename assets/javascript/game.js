@@ -35,6 +35,9 @@ audL.volume = 0.2;
 var audD = document.getElementById("dratAudio");
 audD.volume = 0.2;
 
+var audH = document.getElementById("healAudio");
+audH.volume = 0.2;
+
 
 
 function myChoice(){
@@ -59,28 +62,6 @@ function myChoice(){
     }
 }
 
-function checkOpponent(){
-    if(gengarFight == true){
-        myRival = gengar;
-        // console.log("my opponent " + myRival.name);
-    }
-    if(cyndaFight == true){
-        myRival = cynda;
-        // console.log("my opponent " + myRival.name);
-    }
-    if(larviFight == true){
-        myRival = larvi;
-        // console.log("my opponent " + myRival.name);
-    }
-    if(dratFight == true){
-        myRival = drat;
-        // console.log("my opponent " + myRival.name);
-    }
-
-}
-
-
-
 
 //gengar object
 var gengar = {
@@ -88,9 +69,9 @@ var gengar = {
     HP: 100,
     Status: "Alive",
     Atk: 50,
-    Increase: 4,
-    Counter: 30,
-    Heal: 13,
+    Increase: 3,
+    Counter: 26,
+    Heal: 16,
     pick: function(){
         $('.char1').appendTo('#mcBox');
         $('.char2, .char3, .char4').appendTo('.choiceBox');
@@ -141,10 +122,10 @@ var cynda = {
     name: "Cyndaquil",
     HP: 140,
     Status: "Alive",
-    Atk: 16,
-    Increase: 5,
-    Counter: 16,
-    Heal: 14,
+    Atk: 14,
+    Increase: 7,
+    Counter: 14,
+    Heal: 16,
     pick: function(){
         $('.char2').appendTo('#mcBox');
         $('.char1, .char3, .char4').appendTo('.choiceBox');  
@@ -194,8 +175,8 @@ var larvi = {
     Status: "Alive",
     Atk: 12,
     Increase: 4,
-    Counter: 15,
-    Heal: 20,
+    Counter: 12,
+    Heal: 22,
     pick: function(){
         $('.char3').appendTo('#mcBox');
         $('.char1, .char2, .char4').appendTo('.choiceBox');
@@ -245,10 +226,10 @@ var drat = {
     name: "Dratini",
     HP: 125,
     Status: "Alive",
-    Atk: 2,
-    Increase: 7,
-    Counter: 25,
-    Heal: 14,
+    Atk: 3,
+    Increase: 9,
+    Counter: 23,
+    Heal: 16,
     pick: function(){
         $('.char4').appendTo('#mcBox');
         $('.char1, .char2, .char3').appendTo('.choiceBox');
@@ -360,7 +341,7 @@ function battleLog(){
         myPokemon.HP = myPokemon.HP - myRival.Counter;
 
         if (exp === 3){
-            $('.log1, .log2, .log3, .log4').empty();
+            // $('.log1, .log2, .log3, .log4').empty();
 
         }
 
@@ -372,7 +353,7 @@ function battleLog(){
 
 
             var $restart= $('<input/>').attr({ type: 'button', class: 'btn btn-primary', name:'btn1', value:'Play Again?'});
-            $(".log1").append($restart);
+            $(".log4").html($restart);
             set = true;
 
             $restart.click(function(){
@@ -388,20 +369,14 @@ function battleLog(){
 function winGame(){
         if (exp === 3){
         $(".log").text("You beat the game! You get the Coder Badge!");
-
-        
-        // $('.log2, .log3, .log4').empty();
-        
-        // if (set === false){
-            // $('.log1, .log2, .log3, .log4').empty();
             var $restart= $('<input/>').attr({ type: 'button', class: 'btn btn-primary', name:'btn1', value:'Play Again?'});
-            $(".log1").append($restart);
+            $(".log4").html($restart);
             set = true;
 
             $restart.click(function(){
                 location.reload();
             })
-        // }
+        
 
     }
 
@@ -414,8 +389,8 @@ $('.attack').click(function(){
     if (set === false){
         potUse = false;
         myChoice();
-        battleLog();
         winGame();
+        battleLog();
         updateHP();
 
     }      
@@ -433,6 +408,7 @@ $('.heal').click(function(){
             $('.log1, .log2, .log3, .log4').empty();
             $('.pots').text(potions+ " Left");
             potUse = true;
+            audH.play();
             updateHP();
         }     
         else if(potions === 0){
