@@ -89,7 +89,7 @@ var gengar = {
     Status: "Alive",
     Atk: 32,
     Increase: 8,
-    Counter: 22,
+    Counter: 25,
     pick: function(){
         $('.char1').appendTo('#mcBox');
         $('.char2, .char3, .char4').appendTo('.choiceBox');
@@ -140,8 +140,8 @@ var cynda = {
     name: "Cyndaquil",
     HP: 155,
     Status: "Alive",
-    Atk: 14,
-    Increase: 14,
+    Atk: 12,
+    Increase: 12,
     Counter: 18,
     pick: function(){
         $('.char2').appendTo('#mcBox');
@@ -191,7 +191,7 @@ var larvi = {
     HP: 200,
     Status: "Alive",
     Atk: 8,
-    Increase: 10,
+    Increase: 12,
     Counter: 14,
     pick: function(){
         $('.char3').appendTo('#mcBox');
@@ -370,13 +370,7 @@ function battleLog(){
             })
             
         }
-
-
-
-
-    
        
-
     }
 
 }
@@ -404,10 +398,10 @@ function winGame(){
 // Attack Button
 $('.attack').click(function(){
     if (set === false){
+        winGame();
         myChoice();
         battleLog();
         updateHP();
-        winGame();
     }      
 
 });
