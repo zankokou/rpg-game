@@ -85,11 +85,12 @@ function checkOpponent(){
 //gengar object
 var gengar = {
     name: "Gengar",
-    HP: 130,
+    HP: 100,
     Status: "Alive",
-    Atk: 32,
-    Increase: 8,
-    Counter: 25,
+    Atk: 50,
+    Increase: 4,
+    Counter: 30,
+    Heal: 13,
     pick: function(){
         $('.char1').appendTo('#mcBox');
         $('.char2, .char3, .char4').appendTo('.choiceBox');
@@ -138,11 +139,12 @@ $(".char1").click(function(){
 //cyndaquil object
 var cynda = {
     name: "Cyndaquil",
-    HP: 155,
+    HP: 140,
     Status: "Alive",
-    Atk: 12,
-    Increase: 12,
-    Counter: 18,
+    Atk: 16,
+    Increase: 5,
+    Counter: 16,
+    Heal: 14,
     pick: function(){
         $('.char2').appendTo('#mcBox');
         $('.char1, .char3, .char4').appendTo('.choiceBox');  
@@ -190,9 +192,10 @@ var larvi = {
     name: "Larvitar",
     HP: 200,
     Status: "Alive",
-    Atk: 8,
-    Increase: 12,
-    Counter: 14,
+    Atk: 12,
+    Increase: 4,
+    Counter: 15,
+    Heal: 20,
     pick: function(){
         $('.char3').appendTo('#mcBox');
         $('.char1, .char2, .char4').appendTo('.choiceBox');
@@ -240,11 +243,12 @@ $(".char3").click(function(){
 //dratini object
 var drat = {
     name: "Dratini",
-    HP: 145,
+    HP: 125,
     Status: "Alive",
-    Atk: 10,
-    Increase: 18,
-    Counter: 18,
+    Atk: 2,
+    Increase: 7,
+    Counter: 25,
+    Heal: 14,
     pick: function(){
         $('.char4').appendTo('#mcBox');
         $('.char1, .char2, .char3').appendTo('.choiceBox');
@@ -341,11 +345,12 @@ function battleLog(){
             $('.log').text("You knocked out " + myRival.name + "! Choose your next opponent!");
             if (battleMode === true){
                 exp++
+                winGame();
             }
             battleMode = false;
             myRival.defeat();
             console.log(exp);
-                
+
             myRival.Status = "Defeated";
 
 
@@ -353,6 +358,11 @@ function battleLog(){
     
         $('.log2').text(myRival.name + " Counter Attacks! " + myRival.name + " does " + myRival.Counter + " Damage to " + myPokemon.name + "!" );
         myPokemon.HP = myPokemon.HP - myRival.Counter;
+
+        if (exp === 3){
+            $('.log1, .log2, .log3, .log4').empty();
+
+        }
 
         if(myPokemon.HP <= 0){
             $('.log1, .log2, .log3, .log4').empty();
@@ -378,10 +388,12 @@ function battleLog(){
 function winGame(){
         if (exp === 3){
         $(".log").text("You beat the game! You get the Coder Badge!");
-      
 
-        if (set === false){
-            $('.log1, .log2, .log3, .log4').empty();
+        
+        // $('.log2, .log3, .log4').empty();
+        
+        // if (set === false){
+            // $('.log1, .log2, .log3, .log4').empty();
             var $restart= $('<input/>').attr({ type: 'button', class: 'btn btn-primary', name:'btn1', value:'Play Again?'});
             $(".log1").append($restart);
             set = true;
@@ -389,21 +401,54 @@ function winGame(){
             $restart.click(function(){
                 location.reload();
             })
-        }
+        // }
 
     }
 
 }
 
+var potions = 3;
+var potUse = false;
 // Attack Button
 $('.attack').click(function(){
     if (set === false){
-        winGame();
+        potUse = false;
         myChoice();
         battleLog();
+        winGame();
         updateHP();
+
     }      
 
 });
 
 
+$('.heal').click(function(){
+    if (set === false && potUse === false){
+
+        if (potions > 0 && myRival.Status === "Alive"){
+            myPokemon.HP = myPokemon.HP + myPokemon.Heal
+            potions --;
+            $('.log').text("You healed "+myPokemon.name+" for " + myPokemon.Heal + " Hp!");
+            $('.log1, .log2, .log3, .log4').empty();
+            $('.pots').text(potions+ " Left");
+            potUse = true;
+            updateHP();
+        }     
+        else if(potions === 0){
+            $('.log').text("You are out of Potions!");
+            $('.log1, .log2, .log3, .log4').empty();
+
+        }
+
+            
+    
+    }
+    else if(potUse == true){
+        $('.log').text("You can only use 1 potion per turn!");
+        $('.log1, .log2, .log3, .log4').empty();
+    } 
+    
+
+
+});

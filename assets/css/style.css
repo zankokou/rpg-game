@@ -46,6 +46,29 @@ img{
     font-weight: bolder;
 }
 
+.overlay{
+    position: absolute;
+    margin-left: 15px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    width: 100px;
+    opacity: 0;
+    transition: .5s ease;
+    text-align: center;
+
+    font-size: 16px;
+    font-weight: bolder;
+    color: white;
+    background-color: lightblue;
+}
+
+.char:hover .overlay{
+    opacity: .95;
+}
+
 img:hover{
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
@@ -78,4 +101,25 @@ img:hover{
     }
 
   
+}
+
+.potionlay{
+    position: absolute;
+    margin-left: 0px;
+    margin-top: -50px;
+    padding-left: 5px;
+    padding-right: 5px;
+    opacity: 0;
+    transition: .5s ease;
+    text-align: center;
+    font-size: 14px;
+    /* font-weight: bolder; */
+    color:white;
+    border: 1px #4cae4c solid;
+    background-color: #5cb85c;
+}
+
+
+.btn-success, .btn, .heal:hover .potionlay {
+    opacity: .95;
 }
